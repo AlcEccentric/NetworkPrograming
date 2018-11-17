@@ -5,11 +5,13 @@ using namespace std;
 
 const int PREFIX_LEN = 17;
 
-void testBroad(char *ip, char mask){
+void test(char *ip, char mask){
     char ip_broad_buffer[PREFIX_LEN];
     memset(ip_broad_buffer, 0, PREFIX_LEN);
     get_broadcast_address(ip, mask, ip_broad_buffer);
+    long integerIP = get_ip_integeral_equivalent(ip);
     cout<< "Broadcast ip: " << ip_broad_buffer << "\n";
+    cout<< "Integer ip: " << integerIP << "\n";
 
 }
 
@@ -38,6 +40,6 @@ int main(){
         }
     }
     strcpy(ipChar, ip.c_str());
-    testBroad(ipChar, mask);
+    test(ipChar, mask);
     return 0;
 }

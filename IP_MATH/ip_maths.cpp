@@ -7,7 +7,7 @@
 #include <cstdio>
 #include <cctype>
 
-//  #define debug 0
+// #define debug 0
 bool decIpIsValid(const char* ip){
     for(int i = 0; i < strlen(ip); i++){
         bool isDot = ip[i] == '.';
@@ -19,12 +19,19 @@ bool decIpIsValid(const char* ip){
     std::memset(ipCopy, 0, 20);
     std::strcpy(ipCopy, ip);
     char * charNum = strtok(ipCopy, ".");
+    int count = 0;
     while(charNum != NULL){
+         
         int num = std::atoi(charNum);
+        count ++;
         if(num>255||num<0){
             return false;
         }
         charNum = strtok(NULL, ".");
+       
+    }
+    if(count != 4){
+        return false;
     }
     return true;
 }
@@ -154,10 +161,13 @@ void decIpToBinIP(char * decIp, char* bitBuffer){
 }
 
 
-void get_broadcast_address(char *ip_addr, char mask, char* decIpBuffer){
+void get_broadcast_address(const char *ip_addr, char mask, char* decIpBuffer){
     char ipBinBroadcast[33];
     std::memset(ipBinBroadcast, 0, 33); 
-    decIpToBinIP(ip_addr, ipBinBroadcast);
+    char ipDec[17];
+    std::memset(ipBinBroadcast, 0, 17);
+    std::strcpy(ipDec, ip_addr);
+    decIpToBinIP(ipDec, ipBinBroadcast);
 
     for (int i = mask; i < 32; i++){
         ipBinBroadcast[i] = '1';
@@ -166,4 +176,26 @@ void get_broadcast_address(char *ip_addr, char mask, char* decIpBuffer){
     std::cout<<"broadIP bin format: "<< ipBinBroadcast << std::endl;
     #endif
     binIpToDecIp(ipBinBroadcast, decIpBuffer);
+}
+
+long get_ip_integeral_equivalent(const char* ip_addr){
+    char ip[17];
+    std::memset(ip, 0, 17);
+    std::strcpy(ip, ip_addr);
+    char * charNum = strtok(ip, ".");
+    int expo = 24;
+    long sum = 0;
+    while(charNum != NULL && expo > -1){
+        int number = std::atoi(charNum);
+        #ifdef debug
+        std::cout<< number <<" ";
+        #endif
+        sum += number * std::pow(2, expo);
+        charNum = strtok(NULL, ".");
+        expo-=8;
+    }
+    #ifdef debug
+    std::cout<<std::endl;
+    #endif
+    return sum;
 }
