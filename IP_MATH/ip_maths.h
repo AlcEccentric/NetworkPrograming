@@ -10,6 +10,7 @@ void decIpToBinIP(char * decIp);
 
 /* assignment funcs */
 void get_broadcast_address(const char *ip_addr, char mask, char* output_buffer);
-long get_ip_integeral_equivalent(const char* ip_addr);
+int get_ip_integeral_equivalent(const char* ip_addr);
+void get_abcd_ip_format(unsigned int ip_address, char* output_buffer);
 
 #endif

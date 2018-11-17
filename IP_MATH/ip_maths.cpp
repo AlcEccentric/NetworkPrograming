@@ -7,7 +7,7 @@
 #include <cstdio>
 #include <cctype>
 
-// #define debug 0
+// #define debug 1
 bool decIpIsValid(const char* ip){
     for(int i = 0; i < strlen(ip); i++){
         bool isDot = ip[i] == '.';
@@ -178,13 +178,13 @@ void get_broadcast_address(const char *ip_addr, char mask, char* decIpBuffer){
     binIpToDecIp(ipBinBroadcast, decIpBuffer);
 }
 
-long get_ip_integeral_equivalent(const char* ip_addr){
+int get_ip_integeral_equivalent(const char* ip_addr){
     char ip[17];
     std::memset(ip, 0, 17);
     std::strcpy(ip, ip_addr);
     char * charNum = strtok(ip, ".");
     int expo = 24;
-    long sum = 0;
+    int sum = 0;
     while(charNum != NULL && expo > -1){
         int number = std::atoi(charNum);
         #ifdef debug
@@ -198,4 +198,39 @@ long get_ip_integeral_equivalent(const char* ip_addr){
     std::cout<<std::endl;
     #endif
     return sum;
+}
+
+void get_abcd_ip_format(unsigned int ip_address, char* output_buffer){
+    std::memset(output_buffer, 0, 20);
+    int len = 0;
+    int dotCount = 0;
+    int ABCD[4] = {0,0,0,0};
+    int abcd = 3;
+    while(ip_address != 0){
+        int snippet = ip_address % 256;
+        if(abcd < 0) {
+            std::printf("Input integer error");
+            return;
+        }
+        ABCD[abcd] = snippet;
+        ip_address /= 256;
+        abcd --;
+    }
+
+    for(abcd = 0; abcd < 4; abcd ++){
+        char numBuf[4];
+        std::memset(numBuf, 0, 4);
+        convertDecIpNumToString(ABCD[abcd], numBuf);
+        #ifdef debug
+            std::cout<< "Lenth of snippet: "<<len<<" NumSnippet: "<< numBuf <<std::endl;
+        #endif
+        std::strcpy(output_buffer+len, numBuf);
+        len += std::strlen(numBuf);
+        if(dotCount < 3){
+            output_buffer[len] = '.';
+            dotCount ++;
+            len ++;
+        }
+    }
+        
 }

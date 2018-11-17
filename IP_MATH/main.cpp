@@ -1,24 +1,29 @@
 #include "ip_maths.h"
 #include <string>
 #include <iostream>
+#include <cmath>
 using namespace std;
 
 const int PREFIX_LEN = 17;
 
-void test(char *ip, char mask){
-    char ip_broad_buffer[PREFIX_LEN];
-    memset(ip_broad_buffer, 0, PREFIX_LEN);
-    get_broadcast_address(ip, mask, ip_broad_buffer);
-    long integerIP = get_ip_integeral_equivalent(ip);
-    cout<< "Broadcast ip: " << ip_broad_buffer << "\n";
-    cout<< "Integer ip: " << integerIP << "\n";
+unsigned int getIntIP(){
+    unsigned int ip;
+    while(1){
+        printf("Input ip integer: ");
+        scanf("%d", &ip);
 
+        if(ip>(pow(2,32)-1) || ip < 0){
+            printf("Input content is invalid!\n");
+        }else{
+            break;
+        }
+
+    }
+    return ip;
 }
 
-int main(){
+void getDecIP(char* ipChar){
     string ip;
-    int mask;
-    char ipChar[20];
     memset(ipChar, 0, 20);
     while(1){
         printf("Input ip addr: ");
@@ -30,16 +35,57 @@ int main(){
             break;
         }
     }
+
+    strcpy(ipChar, ip.c_str());
+}
+
+int getMask(){
+    int mask;
     while(1){
-        printf("Input mask: ");
-        scanf("%d", &mask);
+    printf("Input mask: ");
+    scanf("%d", &mask);
         if(mask > 31 || mask < 1){
             printf("Input content is invalid!\n");
         }else{
             break;
         }
     }
-    strcpy(ipChar, ip.c_str());
-    test(ipChar, mask);
+    return mask;
+}
+
+void testBroad(){
+    int mask;
+    char ipChar[20];
+    getDecIP(ipChar);
+    mask = getMask();
+
+    char ip_broad_buffer[PREFIX_LEN];
+    memset(ip_broad_buffer, 0, PREFIX_LEN);
+    get_broadcast_address(ipChar, mask, ip_broad_buffer);
+    
+    cout<< "Broadcast ip: " << ip_broad_buffer << "\n";
+
+}
+
+void testIPGenInteger(){
+    char ipChar[20];
+    getDecIP(ipChar);
+    int integerIP = get_ip_integeral_equivalent(ipChar);
+    cout<< "Integer ip: " << integerIP << "\n";
+}
+
+void testIntegerGenIP(){
+    unsigned int intIP = getIntIP();
+    char ipChar[20];
+    get_abcd_ip_format(intIP, ipChar);
+    cout << "ABCD format ip: " << ipChar << endl;
+}
+
+
+int main(){
+    
+    // testBroad();
+    // testIPGenInteger();
+    testIntegerGenIP();
     return 0;
 }
