@@ -67,6 +67,20 @@ void testBroad(){
 
 }
 
+void testNetID(){
+    int mask;
+    char ipChar[20];
+    getDecIP(ipChar);
+    mask = getMask();
+
+    char net_id_buffer[PREFIX_LEN];
+    memset(net_id_buffer, 0, PREFIX_LEN);
+    get_network_id(ipChar, mask, net_id_buffer);
+    
+    cout<< "Net id: " << net_id_buffer << "\n";
+
+}
+
 void testIPGenInteger(){
     char ipChar[20];
     getDecIP(ipChar);
@@ -86,6 +100,7 @@ int main(){
     
     // testBroad();
     // testIPGenInteger();
-    testIntegerGenIP();
+    // testIntegerGenIP();
+    testNetID();
     return 0;
 }

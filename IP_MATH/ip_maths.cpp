@@ -50,11 +50,17 @@ void convertDecIpNumToString(int ipNum, char * numBuffer){
     }else{
         index = 0;
     }
-    while(ipNum!=0 && index > -1){
+    if(ipNum == 0){
+        num[0] = '0';
+        std::strcpy(numBuffer, num);
+        return;
+    }
+    while(ipNum != 0 && index > -1){
         num[index] = ipNum % 10 + '0';
         ipNum /= 10;
         index --;
     }
+    
     #ifdef debug
     std::printf("DecIpNum corresponding string:%s\n", num);
     #endif
@@ -161,7 +167,7 @@ void decIpToBinIP(char * decIp, char* bitBuffer){
 }
 
 
-void get_broadcast_address(const char *ip_addr, char mask, char* decIpBuffer){
+void get_broadcast_address(const char *ip_addr, char mask, char* output_buffer){
     char ipBinBroadcast[33];
     std::memset(ipBinBroadcast, 0, 33); 
     char ipDec[17];
@@ -175,7 +181,7 @@ void get_broadcast_address(const char *ip_addr, char mask, char* decIpBuffer){
     #ifdef debug
     std::cout<<"broadIP bin format: "<< ipBinBroadcast << std::endl;
     #endif
-    binIpToDecIp(ipBinBroadcast, decIpBuffer);
+    binIpToDecIp(ipBinBroadcast, output_buffer);
 }
 
 int get_ip_integeral_equivalent(const char* ip_addr){
@@ -234,3 +240,22 @@ void get_abcd_ip_format(unsigned int ip_address, char* output_buffer){
     }
         
 }
+
+void get_network_id(const char* ip_addr, char mask, char* output_buffer){
+    char ipBinNetId[33];
+    std::memset(ipBinNetId, 0, 33); 
+    char ipDec[17];
+    std::memset(ipBinNetId, 0, 17);
+    std::strcpy(ipDec, ip_addr);
+    decIpToBinIP(ipDec, ipBinNetId);
+
+    for (int i = mask; i < 32; i++){
+        ipBinNetId[i] = '0';
+    }
+    #ifdef debug
+    std::cout<<"broadIP bin format: "<< ipBinNetId << std::endl;
+    #endif
+    binIpToDecIp(ipBinNetId, output_buffer);
+}
+
+    

@@ -12,5 +12,6 @@ void decIpToBinIP(char * decIp);
 void get_broadcast_address(const char *ip_addr, char mask, char* output_buffer);
 int get_ip_integeral_equivalent(const char* ip_addr);
 void get_abcd_ip_format(unsigned int ip_address, char* output_buffer);
+void get_network_id(const char* ip_Addr, char mask, char* output_buffer);
 
 #endif
