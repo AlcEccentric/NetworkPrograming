@@ -258,4 +258,8 @@ void get_network_id(const char* ip_addr, char mask, char* output_buffer){
     binIpToDecIp(ipBinNetId, output_buffer);
 }
 
+unsigned int get_subnet_cardinality (char mask){
+    return (unsigned int)std::pow(2, 32-mask)-2;
+}
+
     

@@ -81,6 +81,12 @@ void testNetID(){
 
 }
 
+void testCard(){
+    char mask;
+    mask = getMask();
+    cout<< "Subnet cardinality: " << get_subnet_cardinality(mask) << "\n";
+}
+
 void testIPGenInteger(){
     char ipChar[20];
     getDecIP(ipChar);
@@ -101,6 +107,7 @@ int main(){
     // testBroad();
     // testIPGenInteger();
     // testIntegerGenIP();
-    testNetID();
+    // testNetID();
+    testCard();
     return 0;
 }
