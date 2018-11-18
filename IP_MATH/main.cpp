@@ -39,11 +39,31 @@ void getDecIP(char* ipChar){
     strcpy(ipChar, ip.c_str());
 }
 
+void getDecNetId(char* idChar){
+    string id;
+    memset(idChar, 0, 20);
+    while(1){
+        printf("Input net id: ");
+        getline(cin, id);
+        
+        if(decIpIsValid(id.c_str()) == false){
+            printf("Input content is invalid!\n");
+        }else{
+            break;
+        }
+    }
+
+    strcpy(idChar, id.c_str());
+}
+
 int getMask(){
     int mask;
+    string s;
     while(1){
     printf("Input mask: ");
-    scanf("%d", &mask);
+    getline(cin, s);
+    mask = (int) atoi(s.c_str());
+
         if(mask > 31 || mask < 1){
             printf("Input content is invalid!\n");
         }else{
@@ -101,6 +121,19 @@ void testIntegerGenIP(){
     cout << "ABCD format ip: " << ipChar << endl;
 }
 
+void testIPBelong(){
+    int mask;
+    mask = getMask();
+
+    char ipChar[20];
+    getDecIP(ipChar);
+    
+    char idChar[20];
+    getDecNetId(idChar);
+
+    check_ip_subnet_member(idChar, mask, ipChar);
+
+}
 
 int main(){
     
@@ -108,6 +141,7 @@ int main(){
     // testIPGenInteger();
     // testIntegerGenIP();
     // testNetID();
-    testCard();
+    // testCard();
+    testIPBelong();
     return 0;
 }

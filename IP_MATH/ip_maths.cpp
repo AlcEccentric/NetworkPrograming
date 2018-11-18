@@ -7,7 +7,7 @@
 #include <cstdio>
 #include <cctype>
 
-// #define debug 1
+#define debug 1
 bool decIpIsValid(const char* ip){
     for(int i = 0; i < strlen(ip); i++){
         bool isDot = ip[i] == '.';
@@ -171,7 +171,7 @@ void get_broadcast_address(const char *ip_addr, char mask, char* output_buffer){
     char ipBinBroadcast[33];
     std::memset(ipBinBroadcast, 0, 33); 
     char ipDec[17];
-    std::memset(ipBinBroadcast, 0, 17);
+    std::memset(ipDec, 0, 17);
     std::strcpy(ipDec, ip_addr);
     decIpToBinIP(ipDec, ipBinBroadcast);
 
@@ -245,7 +245,7 @@ void get_network_id(const char* ip_addr, char mask, char* output_buffer){
     char ipBinNetId[33];
     std::memset(ipBinNetId, 0, 33); 
     char ipDec[17];
-    std::memset(ipBinNetId, 0, 17);
+    std::memset(ipDec, 0, 17);
     std::strcpy(ipDec, ip_addr);
     decIpToBinIP(ipDec, ipBinNetId);
 
@@ -262,4 +262,22 @@ unsigned int get_subnet_cardinality (char mask){
     return (unsigned int)std::pow(2, 32-mask)-2;
 }
 
-    
+int check_ip_subnet_member(const char* network_id, char mask, const char* check_ip){
+    char netID[17];
+    std::memset(netID, 0, 17);
+    std::strcpy(netID, network_id);
+    char id[17];
+    std::memset(id, 0, 17);
+    get_network_id(check_ip, mask, id);
+    #ifdef debug
+        std::cout<<"NetID: "<< netID << std::endl;
+        std::cout<<"Gotten net id: "<< id << std::endl;
+        std::cout <<"Result of cmp" << std::strcmp(netID, id) << std::endl;
+    #endif
+
+    if(std::strcmp(netID, id) == 1){
+        return -1;
+    }
+    return 0;
+
+}    
